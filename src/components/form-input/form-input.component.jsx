@@ -17,3 +17,7 @@ const formInput = ({ label, ...otherProps }) => {
 };
 
 export default formInput;
+
+// FormInput
+// This allows us to style each part of a Form Including email. userName, Password, Confirm Password
+// we need to add lavbel / ...otherProps

@@ -5,6 +5,9 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth"; // providea authentication services
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -20,27 +23,22 @@ const firebaseConfig = {
   measurementId: "G-636FHRZ0LR",
 };
 
-// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 
-// EveryTime someone interacts we a provider we force them to select an account / i.e.e a google account
 googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
-// this providers authentication
 export const auth = getAuth();
 
-// This provides us with a Google pop up provider and provides the authentication and the provider.
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
 
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
-// connects out data base to firestore
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (
@@ -49,7 +47,7 @@ export const createUserDocumentFromAuth = async (
 ) => {
   if (!userAuth) return;
 
-  const userDocRef = doc(db, "users", userAuth.uid); // userAuth.id gets us a unqiue id documnet refference
+  const userDocRef = doc(db, "users", userAuth.uid);
 
   const userSnapShot = await getDoc(userDocRef);
 
@@ -72,8 +70,22 @@ export const createUserDocumentFromAuth = async (
   return userDocRef;
 };
 
+// we createAuthUserWithEmailAndPassword / if the passowrd and email is wrong then return
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
+  // we await if its correct create new User
   return await createUserWithEmailAndPassword(auth, email, password);
 };
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => await signOut(auth);
+
+// Always waiting to see if the auth state is changing
+export const onAuthStateChangedListner = (callback) =>
+  onAuthStateChanged(auth, callback);

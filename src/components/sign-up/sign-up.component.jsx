@@ -23,8 +23,6 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields; // forFields holds the value of defaultFormFields;
 
-  console.log(formFields);
-
   const resestFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -45,6 +43,7 @@ const SignUpForm = () => {
         email,
         password
       );
+
       await createUserDocumentFromAuth(user, { displayName });
       resestFormFields();
     } catch (error) {
@@ -104,9 +103,7 @@ const SignUpForm = () => {
           name="confirmPassword"
           value={confirmPassword}
         />
-        <Button buttonType="inverted" type="submit">
-          Sign Up
-        </Button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
