@@ -19,12 +19,10 @@ export const addCartItem = (cartItems, productToAdd) => {
 
 // To Remove a ITEM from the Cart.
 const removeCartItem = (cartItems, CartItemToRemove) => {
-  // Find The Cart Item To Remove.
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === CartItemToRemove.id
   );
 
-  // Check to see if the quantityis equal to 1, if it is remove the item from the list.
   if (existingCartItem.quantity === 1) {
     return cartItems.filter((cartItem) => cartItem.id !== CartItemToRemove.id);
   }
@@ -37,9 +35,11 @@ const removeCartItem = (cartItems, CartItemToRemove) => {
   );
 };
 
+// Clear All Items from the Cart
 const clearCartItem = (cartItems, CartItemToClear) =>
   cartItems.filter((cartItem) => cartItem.id !== CartItemToClear.id);
 
+// CartContext Operations
 export const CartContext = createContext({
   isCartOpen: false,
   setIsOpen: () => {},
@@ -51,6 +51,7 @@ export const CartContext = createContext({
   cartTotal: 0,
 });
 
+// state and setState
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -88,6 +89,7 @@ export const CartProvider = ({ children }) => {
     setCartItems(clearCartItem(cartItems, CartItemToClear));
   };
 
+  // values which is used in other components
   const value = {
     isCartOpen,
     setIsCartOpen,

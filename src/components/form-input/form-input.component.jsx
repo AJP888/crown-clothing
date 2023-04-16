@@ -1,22 +1,19 @@
-import "./form-input.styles.scss";
+import { FormInputLabel, Input, Group } from "./form-input.styles";
 
-const formInput = ({ label, ...otherProps }) => {
+const FormInput = ({ label, ...otherProps }) => {
   return (
-    <div className="group">
+    <Group>
+      <Input {...otherProps} />
       {label && (
-        <label
-          className={`${otherProps.value.length ? "shrink" : ""}
-        form-input-label`}
-        >
+        <FormInputLabel shrink={otherProps.value.length}>
           {label}
-        </label>
+        </FormInputLabel>
       )}
-      <input className="form-input" {...otherProps} />
-    </div>
+    </Group>
   );
 };
 
-export default formInput;
+export default FormInput;
 
 // FormInput
 // This allows us to style each part of a Form Including email. userName, Password, Confirm Password
